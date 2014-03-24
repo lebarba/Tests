@@ -30,8 +30,9 @@ namespace TestsAlgorithms
 
         static void Main(string[] args)
         {
-            insertionSortTest();
-        
+            //insertionSortTest();
+
+            bubbleSortTest();
         }
 
 
@@ -95,12 +96,34 @@ namespace TestsAlgorithms
         }
 
 
-        private static void bubbleSortTest(int[] a)
+        private static void bubbleSortTest()
         {
-            int[] array = new int[] { 4, 5, 1, 2, 3, 5, 9, 8 };
+            int[] a = new int[] { 4, 5, 1, 2, 3, 5, 9, 8 };
 
 
-            printArray(array);
+            printArray(a);
+
+            int i, j;
+            for(i = 0 ; i < a.Length -1 ; i++ )
+            {
+
+                for ( j = 0; j < a.Length - i - 1; j++)
+                {
+                    
+                    if( a[j+1] < a[j])
+                    {
+                        int aux = a[j + 1];
+
+                        a[j + 1] = a[j];
+                        a[j] = aux;
+ 
+                    }
+                }
+            }
+
+            printArray(a);
+            verifyArrayAfterSort(a);
+
         }
     }
 }
