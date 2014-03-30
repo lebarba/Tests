@@ -16,22 +16,25 @@ namespace TestsAlgorithms
          -QuickSort
          -mergesort
           
-         eliminate recursive
+         eliminate recursion
          k complimentary pairs
-         fizzbuzz
+         -fizzbuzz
          Combinatory
          Permutations
          Random number generator
          -convert string to number
-         Convert number to string
+         -Convert number to string
          -swap xor
          -modulus
          horners rule
          Search in string
          LCD, LCM
          binary shifts ( xor, masking)
-         -exponential by squaring
+         exponential by squaring
+         tree traversal
          */
+
+        private static int RecursionCounter = 0;
 
         static void Main(string[] args)
         {
@@ -42,14 +45,26 @@ namespace TestsAlgorithms
 
             //mergeTwoSortedArrays();
 
-            toString(123456);
-           
+
+            //FizzBuzzTest();
+
+            PorkLinkedList list = new PorkLinkedList();
+
+            list.insertFirst(0);
+            list.insertLast(1);
+            list.insertLast(2);
+             list.insertLast(5);
+            
+
+
+            list.removeValue(6);
+            //Console.WriteLine(RecursionCounter);
         }
 
         private static void xorSwap( ref int a, ref int b)
         {
             a = a ^ b;
-            b = a ^ b;
+            b = a ^ b; //b
             a = a ^ b;           
         }
 
@@ -393,7 +408,63 @@ namespace TestsAlgorithms
             {
                 Console.Write(digits.Pop());
             }
+        }
 
+        private static long factorial(long n)
+        {
+            RecursionCounter++;
+            if (n == 0)
+                return 1;
+
+            return n * factorial(n - 1);
+
+        }
+
+        private static ulong factorialNonRecursive(ulong n)
+        {
+
+            ulong accum = n;
+
+            for (ulong i = n - 1; i >=1 ; i--)
+            {
+                accum = accum * i;
+            }
+            
+
+            return accum;
+        }
+
+
+        private static void FizzBuzzTest()
+        {
+
+            for (int i = 1; i <= 100; i++)
+            {
+
+                if( i % 3 == 0 && i % 5 == 0)
+                {
+                    Console.WriteLine("FizzBuzz");
+                }
+                else
+                {
+                    if( i % 3 == 0)
+                    {
+                        Console.WriteLine("Fizz");
+                    }
+                    else if (i % 5 == 0)
+                    {
+                        Console.WriteLine("Buzz");
+                    }
+                    else
+                    {
+                        Console.WriteLine(i);
+
+                    }
+
+                }
+
+
+            }
 
         }
     }
