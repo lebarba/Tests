@@ -14,7 +14,7 @@ namespace TestsAlgorithms
          queue
          stack
          -QuickSort
-         mergesort
+         -mergesort
           
          eliminate recursive
          k complimentary pairs
@@ -22,11 +22,15 @@ namespace TestsAlgorithms
          Combinatory
          Permutations
          Random number generator
-         convert string to number
+         -convert string to number
          Convert number to string
-         swap xor
+         -swap xor
+         -modulus
          horners rule
          Search in string
+         LCD, LCM
+         binary shifts ( xor, masking)
+         -exponential by squaring
          */
 
         static void Main(string[] args)
@@ -36,7 +40,17 @@ namespace TestsAlgorithms
           //  bubbleSortTest();
             //quickSortTest();
 
-            mergeTwoSortedArrays
+            //mergeTwoSortedArrays();
+
+            toString(123456);
+           
+        }
+
+        private static void xorSwap( ref int a, ref int b)
+        {
+            a = a ^ b;
+            b = a ^ b;
+            a = a ^ b;           
         }
 
 
@@ -252,24 +266,26 @@ namespace TestsAlgorithms
         {
 
 
-            int[] a = { 1, 2, 3, 4, 5, 6, 7, 8 };
-            int[] b = { 2, 5, 7, 8};
+            int[] a = { 1, 3, 4, 5,  7, 8 };
+            int[] b = { 1, 2, 3, 4, 6, 7};
 
 
-            int i, j;
+            int i, j, k;
 
+            //Create a new array with capacity to hold both arrays.
             int[] c = new int[a.Length + b.Length];
 
-            i = j = 0;
 
-            int k = 0;
-
+            i = j = k = 0;
+            
             //While the i and j indices are inside their arrays.
             while (i < a.Length && j < b.Length)
             {
 
+                //determine the smallest value of two arrays
                 if (a[i] <= b[j])
                 {
+                    //Assign it to the resulting array.
                     c[k] = a[i];
                     i++;
                 }
@@ -281,6 +297,103 @@ namespace TestsAlgorithms
 
                 k++;
             }
+
+            //See if any array has pending items to add
+            if( i < a.Length)
+            {
+
+                while (i < a.Length)
+                    c[k++] = a[i++];
+            }
+            else
+            {
+                while (j < b.Length)
+                    c[k++] = b[j++];
+            }
+
+            printArray(c);
+        }
+
+
+        private static int modulus(int a, int b)
+        {
+            //Example 11%5 = 1
+            // 11/5 = 2 (integer)
+            // 11 - 2 * 5 = 1
+            return a - b * (a / b); 
+
+        }
+
+        private static int toNumber(string number)
+        {
+
+            //-48 is the key to ascii
+
+            int value = 0;
+            int start = 0;
+
+            if (number.Length <= 0)
+                return 0;
+
+            //Check negative number.
+            if (number[0] == '-')
+                start = 1;
+
+            for (int i = start; i < number.Length; i++)
+            {
+
+                value += (int) Math.Pow(10, number.Length- i -1) * (number[i] - 48);
+
+            }
+
+            if (start == 1)
+                value *= -1;
+
+            return value;
+        }
+
+        private static int power(int x, int y)
+        {
+            int accum = x;
+
+
+            if (y == 0)
+                return 1;
+
+            if (y == 1)
+                return x;
+
+            for (int i = 1; i < y; i++)
+            {
+                accum *= x;
+            }
+
+            return accum;
+        }
+
+
+        private static void toString( int num )
+        {
+
+            int remaining = num;
+
+            Stack<char> digits = new Stack<char>();
+
+            while ( remaining > 0 )
+            {
+
+                Console.WriteLine(remaining % 10);
+
+                digits.Push((char) ((remaining % 10) + '0'));
+                remaining /= 10;
+            }
+
+
+            while ( digits.Count > 0)
+            {
+                Console.Write(digits.Pop());
+            }
+
 
         }
     }
