@@ -9,10 +9,12 @@ namespace TestsAlgorithms
     {
 
         /*Pending: 
-         Hashtable
+        -Hashtable
+         hash probe
          Heap
          queue
          stack
+         -single linked list
          -QuickSort
          -mergesort
           
@@ -28,6 +30,8 @@ namespace TestsAlgorithms
          -modulus
          horners rule
          Search in string
+         substitute
+         build binary tree from list.
          LCD, LCM
          binary shifts ( xor, masking)
          exponential by squaring
@@ -48,16 +52,30 @@ namespace TestsAlgorithms
 
             //FizzBuzzTest();
 
-            PorkLinkedList list = new PorkLinkedList();
+            //PorkLinkedList list = new PorkLinkedList();
 
-            list.insertFirst(0);
-            list.insertLast(1);
-            list.insertLast(2);
-             list.insertLast(5);
-            
+            //list.insertFirst(0);
+            //list.insertLast(1);
+            //list.insertLast(2);
+            //list.insertLast(5);
+            //list.removeValue(6);
 
 
-            list.removeValue(6);
+            //PorkDynamicArray myArray = new PorkDynamicArray();
+
+            //for (int i = 0; i < 100000; i++)
+            //{
+            //    myArray.pushValue(i);
+            //}
+
+            PorkHashMap hash = new PorkHashMap();
+
+            Random rnd = new Random();
+            for (int i = 0; i < 200000; i++)
+            {
+                hash.insert(rnd.Next());
+            }
+
             //Console.WriteLine(RecursionCounter);
         }
 
