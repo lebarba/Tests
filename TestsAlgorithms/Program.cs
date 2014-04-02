@@ -28,16 +28,20 @@ namespace TestsAlgorithms
          -Convert number to string
          -swap xor
          -modulus
-         horners rule
-         Search in string
+         -horners rule
+         -Search in string
          substitute
          build binary tree from list.
-         LCD, LCM
+         -GCD, LCM
          binary shifts ( xor, masking)
          exponential by squaring
          tree traversal
          */
 
+
+        /*
+         *1 + 2 + 3 + 4 =  (n * (n+1)) / 2;
+         */
         private static int RecursionCounter = 0;
 
         static void Main(string[] args)
@@ -68,16 +72,29 @@ namespace TestsAlgorithms
             //    myArray.pushValue(i);
             //}
 
-            PorkHashMap hash = new PorkHashMap();
+            //PorkHashMap hash = new PorkHashMap();
 
-            Random rnd = new Random();
-            for (int i = 0; i < 200000; i++)
-            {
-                hash.insert(rnd.Next());
-            }
+            //Random rnd = new Random();
+            //for (int i = 0; i < 200000; i++)
+            //{
+            //    hash.insert(rnd.Next(), rnd.Next() );
+            //}
 
+            //int pos = findSubString("abcdefghijkmlnopqrst", "abc");
+
+            //int times = findRepeatedStrings("abcdeabcdeabcde", "5");
             //Console.WriteLine(RecursionCounter);
+
+            //float[] coeffs = new float[] { 2,2,4,2 };
+
+           // float result = evaluatePolynomialHorner(coeffs, 3.0f);
+
+            int result = lcm(111, 112);
+
+
         }
+
+
 
         private static void xorSwap( ref int a, ref int b)
         {
@@ -485,5 +502,104 @@ namespace TestsAlgorithms
             }
 
         }
-    }
+
+
+        //http://algs4.cs.princeton.edu/53substring/Brute.java.html
+        private static int findSubString(string fullString, string subString)
+        {
+            //Check if substring is empty.
+            if (subString.Length <= 0)
+                return -1;
+
+            //Go from first char to last char minus the pattern length
+            for (int i = 0; i <= fullString.Length - subString.Length; i++)
+            {
+                int j;
+
+                for ( j = 0; j < subString.Length; j++)
+                {
+
+                    if (fullString[i + j] != subString[j])
+                        break;
+                }
+
+                if (j == subString.Length)
+                    return i;
+            }
+
+            return -1;
+        }
+
+        private static int findRepeatedStrings(string fullString, string subString)
+        {
+            if (subString.Length <= 0)
+                return 0;
+
+            int times = 0;
+
+            int i = 0;
+
+            while( i <= fullString.Length - subString.Length)
+            {
+                int j;
+
+                for (j = 0; j < subString.Length; j++)
+                {
+
+                    if (fullString[i + j] != subString[j])
+                        break;
+                }
+
+                
+                if (j == subString.Length)
+                {
+                    times++;
+
+                    //Advance the pointer to skip the chars from the pattern found.
+                    i += subString.Length;
+                }else
+                {
+                    i++;
+                }
+
+            }
+
+            return times;
+        }
+
+
+        private static float evaluatePolynomialHorner( float[] coeff, float x)
+        {
+
+            float result = 0;
+
+            for(int c = coeff.Length - 1 ; c >= 0 ; c-- )
+            {
+
+                result = result * x + coeff[c]; 
+            }
+
+            return result;
+        }
+
+
+
+       public static int gcd(int a, int b)
+       {
+
+           //If remainder is 0 stop there.
+           if( b == 0 )
+                return a;
+
+           return gcd(b, a % b);
+
+       }
+       private static int lcm(int a, int b)
+       {
+           return a * (b / gcd(a, b));
+       }
+
+
+       
+       }
 }

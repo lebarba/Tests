@@ -8,7 +8,18 @@ namespace TestsAlgorithms
     class PorkHashMap
     {
 
-        PorkLinkedList[] buckets;
+
+        struct hashNode
+        {
+            public int key;
+            public int value;
+
+        };
+
+
+        List<hashNode>[] buckets;
+
+
 
         int allocatedSize;
         int occupancy;
@@ -19,21 +30,21 @@ namespace TestsAlgorithms
             allocatedSize = 100;
             occupancy = 0;
 
-            buckets = new PorkLinkedList[allocatedSize];
+            buckets = new List<hashNode>[allocatedSize];
 
         }
 
-        public void insert( int value)
+        public void insert( int key, int value)
         {
 
             //Get the bucket number.
-            int bucketNumber = value % allocatedSize;
+            int bucketNumber = key % allocatedSize;
 
             //See if the bucket has a list created
             if (buckets[bucketNumber] == null) { 
                 
                 //Create list
-                buckets[bucketNumber] = new PorkLinkedList();
+                buckets[bucketNumber] = new List<hashNode>();
                 
                 //Increase occupancy
                 occupancy++;
@@ -45,12 +56,12 @@ namespace TestsAlgorithms
                     //Increase size to double
                     int newSize = allocatedSize * 2;
 
-                    PorkLinkedList[] NewBuckets = new PorkLinkedList[newSize];
+                    List<hashNode>[] NewBuckets = new List<hashNode>[newSize];
 
                     //Copy old list
-                    for (int i = 0; i < allocatedSize; i++)
+                    for (int j = 0; j < allocatedSize; j++)
                     {
-                        NewBuckets[i] = buckets[i];
+                        NewBuckets[j] = buckets[j];
                     }
 
                     allocatedSize = newSize;
@@ -60,8 +71,27 @@ namespace TestsAlgorithms
                 }
             }
 
+
+            hashNode newNode = new hashNode();
+            newNode.key = key;
+            newNode.value = value;
+
             //Insert value.
-            buckets[bucketNumber].insertLast(value);
+            int i;
+            for ( i = 0; i < buckets[bucketNumber].Count; i++)
+            {
+                if( buckets[bucketNumber][i].key == key )
+                {
+                    (buckets[bucketNumber])[i] = newNode;
+                    break;
+                }
+            }
+
+            //if not found
+            if( i == buckets[bucketNumber].Count )
+            {
+                buckets[bucketNumber].Add(newNode);
+            }
 
         }
     }
