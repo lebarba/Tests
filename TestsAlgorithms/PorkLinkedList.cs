@@ -8,14 +8,14 @@ namespace TestsAlgorithms
     class PorkLinkedList
     {
 
-        class LinkNode
+        public class LinkNode
         {
             public  int value;
             public LinkNode next;
 
         }
 
-        LinkNode first;
+        public LinkNode first;
 
         public PorkLinkedList()
         {

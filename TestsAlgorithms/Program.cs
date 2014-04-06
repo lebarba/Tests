@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace TestsAlgorithms
 {
@@ -19,10 +21,11 @@ namespace TestsAlgorithms
          -mergesort
           
          eliminate recursion
+          Combinatory
+         Permutations
          k complimentary pairs
          -fizzbuzz
-         Combinatory
-         Permutations
+
          Random number generator
          -convert string to number
          -Convert number to string
@@ -61,10 +64,27 @@ namespace TestsAlgorithms
             //list.insertFirst(0);
             //list.insertLast(1);
             //list.insertLast(2);
+            //list.insertLast(3);
+            //list.insertLast(4);
             //list.insertLast(5);
-            //list.removeValue(6);
+            //list.insertLast(6);
+            //list.insertLast(7);
+
+            //PorkLinkedList.LinkNode nthNode = nthToLast(list, 3);
 
 
+
+            PorkBST root = new PorkBST(5);
+            root.left = new PorkBST(3);
+            root.left.left = new PorkBST(2);
+            root.left.right = new PorkBST(4);
+
+            root.right = new PorkBST(7);
+            root.right.left = new PorkBST(6);
+            root.right.right = new PorkBST(8);
+
+
+            //iterativeInOrderBST(root);
             //PorkDynamicArray myArray = new PorkDynamicArray();
 
             //for (int i = 0; i < 100000; i++)
@@ -89,13 +109,230 @@ namespace TestsAlgorithms
 
            // float result = evaluatePolynomialHorner(coeffs, 3.0f);
 
-            int result = lcm(111, 112);
+           // int result = lcm(111, 112);
+
+
+            //int maxThreads = 2;
+
+            //Thread[] threads = new Thread[maxThreads];
+            //for (int i = 0; i < maxThreads; i++)
+            //{
+            //    Thread t = new Thread(new ThreadStart(doWork));
+            //    threads[i] = t;
+            //}
+
+            //for (int i = 0; i < maxThreads; i++)
+            //    threads[i].Start();
+
+            //bool balanced = isBSTBalanced(root);
+
+            bool isBST = isABST(root);
+
 
 
         }
 
+        static Object syncObj1 = new Object();
+        static Object syncObj2 = new Object();
+        static int a = 0;
+        static int b = 1;
+        private static void doWork()
+        {
 
 
+                lock (syncObj1)
+                {
+
+                    lock (syncObj2)
+                    {
+                        a = a + 1;
+                    }
+                    Console.WriteLine(a);
+                }
+
+                lock (syncObj2)
+                {
+
+                    lock (syncObj1)
+                    {
+                        b = b + 1;
+                        Thread.Sleep(100000);
+                    }
+                    Console.WriteLine(a);
+                }
+
+        }
+
+
+        private static void  traverseBSTPreOrder(PorkBST root)
+        {
+
+            if (root == null)
+                return;
+
+            Console.WriteLine(root.value);
+            traverseBSTPreOrder(root.left);
+            traverseBSTPreOrder(root.right);
+        }
+
+        private static void traverseBSTInOrder(PorkBST root)
+        {
+
+            if (root == null)
+                return;
+
+            traverseBSTInOrder(root.left);
+            Console.WriteLine(root.value);
+            traverseBSTInOrder(root.right);
+        }
+
+
+       private static bool isABST(PorkBST root)
+       {
+
+           if (root == null)
+               return false;
+
+           Stack<PorkBST> pendingNodes = new Stack<PorkBST>();
+
+           PorkBST current = root;
+
+           int lastValue = int.MinValue;
+
+           bool done = false;
+           while(!done)
+           {
+
+               if (current != null)
+               {
+                   pendingNodes.Push(current);
+                   current = current.left;
+               }
+               else
+               {
+
+                   if (pendingNodes.Count == 0)
+                   {
+                       done = true;
+                   }
+                   else
+                   {
+                       current = pendingNodes.Pop();
+
+                       if (current.value < lastValue)
+                           return false;
+
+                       lastValue = current.value;
+
+                       current = current.right;
+                   }
+               }
+
+
+
+           }
+
+           return true;
+
+       }
+
+
+       private static void breadthFirstBST(PorkBST root)
+       {
+
+           if (root == null)
+               return;
+
+           Queue<PorkBST> pendingNodes = new Queue<PorkBST>();
+                    
+           PorkBST current;
+           
+           current = root;
+           while (current != null)
+           {
+
+
+
+               Console.WriteLine(current.value);
+
+               if (current.left != null)
+                   pendingNodes.Enqueue(current.left);
+
+               
+               if (current.right != null)
+                   pendingNodes.Enqueue(current.right);
+
+               if (pendingNodes.Count <= 0)
+                   return;
+
+               current = pendingNodes.Dequeue();
+           }
+
+
+       }
+
+        private static bool isBSTBalanced(PorkBST root)
+       {
+
+           return Math.Abs( maxDepth(root.left) - maxDepth(root.right) ) <= 1;
+       }
+
+
+        private static int maxDepth(PorkBST root)
+        {
+
+            if (root == null)
+                return 0;
+
+            return 1 + Math.Max(maxDepth(root.left), maxDepth(root.right));
+        }
+
+
+       private static void iterativeInOrderBST(PorkBST root)
+       {
+
+           if (root == null)
+               return;
+
+           Stack<PorkBST> pendingNodes = new Stack<PorkBST>();
+           PorkBST current;
+           bool done = false;
+
+           current = root;
+           
+           while (!done)
+           {
+
+               if (current != null)
+               {
+                   //Keep pushing the left items until the leaf is found.
+
+                    pendingNodes.Push(current);
+
+                    //Console.WriteLine(current.value); Preorder
+                    current = current.left;
+               }
+               else
+               {
+
+                   if( pendingNodes.Count == 0)
+                   {
+                       done = true;
+                   }
+                   else
+                   {
+                      
+                       current = pendingNodes.Pop();
+
+                       Console.WriteLine(current.value); //In order
+                       current = current.right;
+
+                       
+                   }
+
+               }
+           }
+       }
         private static void xorSwap( ref int a, ref int b)
         {
             a = a ^ b;
@@ -600,6 +837,33 @@ namespace TestsAlgorithms
        }
 
 
+       private static PorkLinkedList.LinkNode nthToLast(PorkLinkedList listHead, int n)
+       {
+
+           PorkLinkedList.LinkNode p1, p2;
+
+           p1 = p2 = listHead.first;
+
+           //Advance p2 n - 1 elements
+           for (int i = 0; i < n  -1 ; i++)
+           {
+               p2 = p2.next;
+
+               //List not long enough to have nth element.
+               if (p2 == null)
+                   return null;
+           }
+
+           //Advance both pointers until p2 is the last element.
+           while(p2.next != null)
+           {
+               p2 = p2.next;
+               p1 = p1.next;
+           }
+
+           return p1;
+
+       }
        
        }
 }
